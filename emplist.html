@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="bootstrap-5.2.2-dist\css\bootstrap.css" rel="stylesheet" />
+    <script src="js\jquery-3.6.1.min.js"></script>
+    <script src="bootstrap-5.2.2-dist\js\bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                method: "GET",
+                url: "/api/Employee",
+                success: function (data) {
+                    $("#tblBody").empty();
+                    for (item in data) {
+                        var row = " <tr>" +
+                    "<td>" + data[item].Id + "</td>" +
+                    "<td>" + data[item].Name + "</td>" +
+                    "<td>" + data[item].Age + "</td>" +
+                    "<td>" + data[item].City + "</td>" +
+                    "<td>" + data[item].Salary + "</td>" +
+                    "<td class='text-right'>" +
+                        "<a  href='EditEmployee.html?Id=" + data[item].Id + "' class='btn btn-primary btn-sm'>Edit</a>" +
+                        "&nbsp;" +
+                        "<button class='btn btn-danger btn-sm btnDelete' data-id='" + data[item].Id + "'>Delete</button>" +
+                        "</td></tr>";
+                        $("#tblBody").append(row);
+                    }
+                    $(".btnDelete").click(function () {
+                        if (confirm('Are you sure want to delete ?')) {
+                            $.ajax({
+                                method: "DELETE",
+                                url: "/api/Employee/" + $(this).data("id"),
+                                success: function () {
+                                    window.location.href = "EmployeeList.html";
+                                },
+                                error: function (response) {
+                                    alert('Error occurred while deleting...');
+                                },
+                            });
+                        }
+                    });
+                },
+                error: function (response) {
+                    alert('Something went wrong...');
+                },
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div class="container" style="padding-top:25px">
+        <div class="row">
+            <div class="col-md-6"><h2 class="text-success">Employee List</h2></div>
+            <div class="col-md-6 text-right"><a href="AddEmployee.html" class="btn btn-success" style="margin-top:25px">Add Employee</a></div>
+        </div>
+
+        <br />
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr class="success">
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>City</th>
+                    <th>Salary</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tblBody">
+                <tr>
+                    <td colspan="6" class="text-center">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
