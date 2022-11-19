@@ -22,7 +22,9 @@ $("#btn").live("click",function(){
 });  
   
 </script>  
-  
+  <html>
+    <head><title>AJAX DEMO</title></head>
  First name: <input type="text" name="fname" id="fname"><br>  
  Last name: <input type="text" name="lname" id="lname"><br>  
  <input type="button" value="Submit" id="btn">  
+ </html>
